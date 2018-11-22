@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AjaxTest</title>
+</head>
+<body>
+<button id="test">tiaozhhuna</button>
+</body>
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script>
+    function getContextPath(){
+        return '/RSNA_SHOW/';
+    }
+    $(document).ready(function () {
+
+        $("#test").click(function () {
+            $.ajax({
+                type: "POST",
+                url: getContextPath() + "test/insert.do", //baseURL
+                data: {},
+                success: function (returnMsg) {
+                    console.log(returnMsg);
+                    alert(returnMsg);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(textStatus + errorThrown);
+                }
+            });
+        });
+    })
+</script>
+</html>
