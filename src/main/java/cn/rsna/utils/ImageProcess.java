@@ -20,7 +20,7 @@ public class ImageProcess {
             img = ImageIO.read(file);
             Graphics graphics=bufImg.getGraphics();
             graphics.drawImage(img,0,0,300,300,null);
-            ImageIO.write(bufImg,"jpg",file);
+            //ImageIO.write(bufImg,"jpg",file);
         } catch (IOException e) {
             e.printStackTrace();
         }

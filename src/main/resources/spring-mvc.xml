@@ -36,6 +36,11 @@
         <property name="maxUploadSize" value="-1"/>
     </bean>
 
+    <!--设置拦截器，对某些请求进行处理-->
+    <mvc:interceptors>
+        <bean class="cn.innterceptor.ProcessInterceptor"></bean>
+    </mvc:interceptors>
+
     <mvc:resources location="/" mapping="/**/*.html" />
     <mvc:resources location="/" mapping="/**/*.js" />
     <mvc:resources location="/" mapping="/**/*.css" />

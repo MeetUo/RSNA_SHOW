@@ -18,18 +18,18 @@ public class UserInfoController{
 
     @RequestMapping(value = "/insert.do")
     @ResponseBody
-    public String  handleRequest(HttpServletRequest request,
+    public ModelAndView  handleRequest(HttpServletRequest request,
                                       HttpServletResponse response) throws Exception {
 
-//        String uname=request.getParameter("name");
-//        Integer uage=Integer.valueOf(request.getParameter("age"));
-//
-//        UserInfo info=new UserInfo();
-//        info.setAge(uage);
-//        info.setName(uname);
-//
-//        service.add(info);
-        return "hello word";
+        String uname=request.getParameter("name");
+        Integer uage=Integer.valueOf(request.getParameter("age"));
+
+        UserInfo info=new UserInfo();
+        info.setAge(uage);
+        info.setName(uname);
+
+        service.add(info);
+        return new ModelAndView("/index");
     }
     public IUserInfoService getService() {
         return service;
