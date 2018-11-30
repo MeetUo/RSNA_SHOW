@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Controller
-@RequestMapping(value="/test")
+@RequestMapping(value="/image")
 public class ImageUploadContoller {
     @Autowired
     IImageRegService imageRegService;

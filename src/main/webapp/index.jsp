@@ -21,9 +21,10 @@
 
 <body>
 <h1>SSM整合</h1>
-<form action="${pageContext.request.contextPath }/test/insert.do" method="post">
-    用户名：<input name="name"/> <br/>
-    用户年龄<input name="age"/><br/>
+<form action="${pageContext.request.contextPath }/user/register.do" method="post">
+    用户名：<input name="username"/> <br/>
+    密码<input name="password"/><br/>
+    用户类型<input name="usertype"/><br/>
     <input type="submit" value="save"/>
 </form>
 </body>
