@@ -39,6 +39,16 @@
     <!--设置拦截器，对某些请求进行处理-->
     <mvc:interceptors>
         <bean class="cn.innterceptor.ProcessInterceptor"></bean>
+        <mvc:interceptor>
+            <!-- 拦截所有mvc控制器 -->
+            <mvc:mapping path="/**"/>
+            <!-- mvc:exclude-mapping是另外一种拦截，它可以在你后来的测试中对某个页面进行不拦截，这样就不用在
+                LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) -->
+            <mvc:exclude-mapping path="/login.html" />
+            <mvc:exclude-mapping path="/index.html" />
+            <mvc:exclude-mapping path="/user/**" />
+            <bean class="cn.innterceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
     </mvc:interceptors>
 
     <mvc:resources location="/" mapping="/**/*.html" />

@@ -36,6 +36,7 @@ public class UserContoller {
         if (!userService.isLogin(UserName,PassWord)) return RSNAResult.build(123, "user not exit or password is wrong");
         Cookie cookie = new Cookie("username",UserName );
         cookie.setMaxAge(86400); // 设置24小时有效
+        cookie.setPath("/RSNA_SHOW");
         response.addCookie(cookie); // 服务器返回给浏览器cookie以便下次判断
         return RSNAResult.ok(userService.selectUserByName(UserName));
     }
@@ -70,9 +71,10 @@ public class UserContoller {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                System.out.println(URLDecoder.decode(cookie.getName(), "utf-8"));
+//                System.out.println(URLDecoder.decode(cookie.getName(), "utf-8"));
                 if (URLDecoder.decode(cookie.getName(), "utf-8").equals("username")) { // 表明已经登陆过了，就直接跳转了
                     cookie.setMaxAge(0);
+                    cookie.setPath("/RSNA_SHOW");
                     response.addCookie(cookie);
                 }
             }
