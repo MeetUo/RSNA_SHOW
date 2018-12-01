@@ -46,6 +46,7 @@
                 LoginInterceptor的preHandler方法里面获取不拦截的请求uri地址了(优选) -->
             <mvc:exclude-mapping path="/login.html" />
             <mvc:exclude-mapping path="/index.html" />
+            <mvc:exclude-mapping path="/**/**/**.js" />
             <mvc:exclude-mapping path="/user/**" />
             <bean class="cn.innterceptor.LoginInterceptor"></bean>
         </mvc:interceptor>

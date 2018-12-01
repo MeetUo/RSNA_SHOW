@@ -26,12 +26,14 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 在拦截点执行前拦截，如果返回true则不拦截
         // 返回false则执行拦截
         boolean flag = false;
+        String username = "";
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
 //                System.out.println(URLDecoder.decode(cookie.getName(), "utf-8"));
                 if (URLDecoder.decode(cookie.getName(), "utf-8").equals("username")) { // 表明已经登陆过了，就直接跳转了
                     flag = true;
+                    username = cookie.getValue();
                 }
             }
         }
@@ -39,6 +41,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         //if(session.getAttribute("LOGIN_USER")!=null || uri.indexOf("system/login")!=-1) {// 说明登录成功 或者 执行登录功能
         if(flag) {
             // 登录成功不拦截
+            request.setAttribute("username",username);
             return true;
         }else {
             // 拦截后进入登录页面

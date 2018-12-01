@@ -24,6 +24,9 @@ public class ImageUploadContoller {
     @ResponseBody
     public RSNAResult handleRequest(@RequestParam("myImage")MultipartFile Imagefile, HttpServletRequest request) throws Exception {
         String upLoadPath = request.getServletContext().getRealPath("/") +"ImageData/";
+        String username =(String) request.getAttribute("username");
+        if (username==null) return RSNAResult.build(123,"login first");
+//        System.out.println(username+"image user");
         File dir = new File(upLoadPath);
         if (!dir.exists())
         {
@@ -49,7 +52,7 @@ public class ImageUploadContoller {
             try {
                 Imagefile.transferTo(file);
                 //上传成功，向jsp页面发送成功信息
-                return RSNAResult.ok(imageRegService.getRes(file));
+                return RSNAResult.ok(imageRegService.getRes(file,username,file.getPath()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

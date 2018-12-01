@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IImageRegService {
     public LocaResult getRes();
-    public List<LocaResult> getRes(File file);
+    public List<LocaResult> getRes(File file,String username,String path);
 }

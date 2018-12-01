@@ -1,6 +1,8 @@
 package cn.rsna.service.Impl;
 
+import cn.rsna.dao.UserPicMapper;
 import cn.rsna.entity.LocaResult;
+import cn.rsna.entity.UserPic;
 import cn.rsna.service.IImageRegService;
 import cn.rsna.utils.ImageProcess;
 import cn.rsna.utils.ImageToBox;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class ImageRegServiceImpl implements IImageRegService {
+    @Autowired
+    private UserPicMapper userPicMapper;
     private LocaResult locaResult;
     private static ImageToBox imageToBox;
     public ImageRegServiceImpl(){
@@ -32,8 +36,32 @@ public class ImageRegServiceImpl implements IImageRegService {
             System.out.println(e);
         }
     }
+    private void add( List<LocaResult> res,String username,String path){
+        UserPic userPic = new UserPic();
+        userPic.setPath(path);
+        userPic.setUsername(username);
+        String xmin = "";
+        String ymin = "";
+        String xmax = "";
+        String ymax = "";
+        for (LocaResult locaResult : res) {
+            if (xmin.length()==0) xmin = xmin+locaResult.getLeft_x();
+            else xmin = xmin+" "+locaResult.getLeft_x();
+            if (ymin.length()==0) ymin = ymin+locaResult.getLeft_y();
+            else ymin = ymin+" "+locaResult.getLeft_y();
+            if (xmax.length()==0) xmax = xmax+locaResult.getRight_x();
+            else xmax = xmax+" "+locaResult.getRight_x();
+            if (ymax.length()==0) ymax = ymax+locaResult.getRight_y();
+            else ymax = ymax+" "+locaResult.getRight_y();
+        }
+        userPic.setXmin(xmin);
+        userPic.setYmin(ymin);
+        userPic.setXmax(xmax);
+        userPic.setYmax(ymax);
+        userPicMapper.insert(userPic);
+    }
     @Override
-    public List<LocaResult> getRes(File file){
+    public List<LocaResult> getRes(File file,String username,String path){
         List<LocaResult> res = new ArrayList<>();
         try{
             float[][][] pred = imageToBox.predict(ImageProcess.readImage(file));
@@ -50,6 +78,7 @@ public class ImageRegServiceImpl implements IImageRegService {
         }catch (Exception e){
             System.out.println(e);
         }
+        add(res,username,path);
         return res;
     }
     public LocaResult getRes(){
