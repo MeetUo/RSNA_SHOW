@@ -23,7 +23,7 @@ import java.net.URLDecoder;
 public class UserContoller {
     @Autowired
     private IUserService userService;
-    @RequestMapping(value = "/login.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/login.do", method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public RSNAResult handleRequest(HttpServletRequest request,
                                     HttpServletResponse response) throws Exception {
@@ -41,7 +41,7 @@ public class UserContoller {
         return RSNAResult.ok(userService.selectUserByName(UserName));
     }
 
-    @RequestMapping(value = "/islogin.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/islogin.do", method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public RSNAResult islogin(HttpServletRequest request) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -55,7 +55,7 @@ public class UserContoller {
         }
     }
 
-    @RequestMapping(value = "/vcode.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/vcode.do",  method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public void getVcode(HttpServletRequest request,HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession(true);
@@ -65,7 +65,7 @@ public class UserContoller {
         //将验证码存入session中
         session.setAttribute("Vcode", validateCode.getCode());
     }
-    @RequestMapping(value = "/clearCookie.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/clearCookie.do",  method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public RSNAResult clearCookie(HttpServletRequest request,HttpServletResponse response) throws Exception {
         Cookie[] cookies = request.getCookies();

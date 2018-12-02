@@ -673,6 +673,66 @@ public class UserPicExample {
             addCriterion("path not between", value1, value2, "path");
             return (Criteria) this;
         }
+
+        public Criteria andConfIsNull() {
+            addCriterion("conf is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfIsNotNull() {
+            addCriterion("conf is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfEqualTo(Boolean value) {
+            addCriterion("conf =", value, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfNotEqualTo(Boolean value) {
+            addCriterion("conf <>", value, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfGreaterThan(Boolean value) {
+            addCriterion("conf >", value, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("conf >=", value, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfLessThan(Boolean value) {
+            addCriterion("conf <", value, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfLessThanOrEqualTo(Boolean value) {
+            addCriterion("conf <=", value, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfIn(List<Boolean> values) {
+            addCriterion("conf in", values, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfNotIn(List<Boolean> values) {
+            addCriterion("conf not in", values, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfBetween(Boolean value1, Boolean value2) {
+            addCriterion("conf between", value1, value2, "conf");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("conf not between", value1, value2, "conf");
+            return (Criteria) this;
+        }
     }
 
     /**

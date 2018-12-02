@@ -1,4 +1,4 @@
-package cn.rsna.entity;
+package cn.rsna.utils;
 
 public class LocaResult {
     private Double conf;

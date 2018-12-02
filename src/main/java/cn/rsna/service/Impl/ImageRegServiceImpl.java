@@ -1,11 +1,9 @@
 package cn.rsna.service.Impl;
 
 import cn.rsna.dao.UserPicMapper;
-import cn.rsna.entity.LocaResult;
+import cn.rsna.utils.*;
 import cn.rsna.entity.UserPic;
 import cn.rsna.service.IImageRegService;
-import cn.rsna.utils.ImageProcess;
-import cn.rsna.utils.ImageToBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,10 +34,8 @@ public class ImageRegServiceImpl implements IImageRegService {
             System.out.println(e);
         }
     }
-    private void add( List<LocaResult> res,String username,String path){
-        UserPic userPic = new UserPic();
-        userPic.setPath(path);
-        userPic.setUsername(username);
+    private List<String> getLoca(List<LocaResult> res){
+        List<String> ans = new ArrayList<>();
         String xmin = "";
         String ymin = "";
         String xmax = "";
@@ -54,14 +50,27 @@ public class ImageRegServiceImpl implements IImageRegService {
             if (ymax.length()==0) ymax = ymax+locaResult.getRight_y();
             else ymax = ymax+" "+locaResult.getRight_y();
         }
-        userPic.setXmin(xmin);
-        userPic.setYmin(ymin);
-        userPic.setXmax(xmax);
-        userPic.setYmax(ymax);
+        ans.add(xmin);
+        ans.add(ymin);
+        ans.add(xmax);
+        ans.add(ymax);
+        return ans;
+    }
+    private int add( List<LocaResult> res,String username,String path){
+        UserPic userPic = new UserPic();
+        userPic.setPath(path);
+        userPic.setUsername(username);
+        List<String> ans = getLoca(res);
+        userPic.setConf(false);
+        userPic.setXmin(ans.get(0));
+        userPic.setYmin(ans.get(1));
+        userPic.setXmax(ans.get(2));
+        userPic.setYmax(ans.get(3));
         userPicMapper.insert(userPic);
+        return userPic.getPicid();
     }
     @Override
-    public List<LocaResult> getRes(File file,String username,String path){
+    public RSNAResult getRes(File file, String username, String path){
         List<LocaResult> res = new ArrayList<>();
         try{
             float[][][] pred = imageToBox.predict(ImageProcess.readImage(file));
@@ -78,9 +87,23 @@ public class ImageRegServiceImpl implements IImageRegService {
         }catch (Exception e){
             System.out.println(e);
         }
-        add(res,username,path);
-        return res;
+        int picid = add(res,username,path);
+        return RSNAResult.build(picid,"OK",res);
     }
+
+    public boolean addNewRes(LocalRequest localRequest){
+        List<String> ans = getLoca(localRequest.getLocalRequests());
+        UserPic userPic = userPicMapper.selectByPrimaryKey(localRequest.getPicid());
+        if (userPic==null) return false;
+        userPic.setConf(true);
+        userPic.setXmin(ans.get(0));
+        userPic.setYmin(ans.get(1));
+        userPic.setXmax(ans.get(2));
+        userPic.setYmax(ans.get(3));
+        userPicMapper.updateByPrimaryKey(userPic);
+        return true;
+    }
+
     public LocaResult getRes(){
         locaResult = new LocaResult();
         locaResult.setLeft_x(20.0);

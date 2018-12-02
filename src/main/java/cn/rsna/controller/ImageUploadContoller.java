@@ -1,13 +1,13 @@
 package cn.rsna.controller;
 
+
 import cn.rsna.service.IImageRegService;
+import cn.rsna.utils.LocaResult;
+import cn.rsna.utils.LocalRequest;
 import cn.rsna.utils.RSNAResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,12 +52,17 @@ public class ImageUploadContoller {
             try {
                 Imagefile.transferTo(file);
                 //上传成功，向jsp页面发送成功信息
-                return RSNAResult.ok(imageRegService.getRes(file,username,file.getPath()));
+                return imageRegService.getRes(file,username,file.getPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
         return RSNAResult.ok();
+    }
+    @RequestMapping(value = "/imageUpdate.do",  method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public RSNAResult imageUpdate(@RequestBody LocalRequest localRequest) throws Exception {
+        if (imageRegService.addNewRes(localRequest)) return RSNAResult.ok();
+        else return RSNAResult.build(123,"update fail");
     }
 }
