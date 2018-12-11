@@ -1,6 +1,8 @@
 package cn.rsna.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class UserExample {
@@ -192,6 +194,32 @@ public class UserExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andUseridIsNull() {
@@ -674,63 +702,63 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andAgeIsNull() {
-            addCriterion("age is null");
+        public Criteria andBirthdayIsNull() {
+            addCriterion("birthday is null");
             return (Criteria) this;
         }
 
-        public Criteria andAgeIsNotNull() {
-            addCriterion("age is not null");
+        public Criteria andBirthdayIsNotNull() {
+            addCriterion("birthday is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAgeEqualTo(Integer value) {
-            addCriterion("age =", value, "age");
+        public Criteria andBirthdayEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday =", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotEqualTo(Integer value) {
-            addCriterion("age <>", value, "age");
+        public Criteria andBirthdayNotEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday <>", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeGreaterThan(Integer value) {
-            addCriterion("age >", value, "age");
+        public Criteria andBirthdayGreaterThan(Date value) {
+            addCriterionForJDBCDate("birthday >", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("age >=", value, "age");
+        public Criteria andBirthdayGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday >=", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeLessThan(Integer value) {
-            addCriterion("age <", value, "age");
+        public Criteria andBirthdayLessThan(Date value) {
+            addCriterionForJDBCDate("birthday <", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeLessThanOrEqualTo(Integer value) {
-            addCriterion("age <=", value, "age");
+        public Criteria andBirthdayLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("birthday <=", value, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeIn(List<Integer> values) {
-            addCriterion("age in", values, "age");
+        public Criteria andBirthdayIn(List<Date> values) {
+            addCriterionForJDBCDate("birthday in", values, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotIn(List<Integer> values) {
-            addCriterion("age not in", values, "age");
+        public Criteria andBirthdayNotIn(List<Date> values) {
+            addCriterionForJDBCDate("birthday not in", values, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeBetween(Integer value1, Integer value2) {
-            addCriterion("age between", value1, value2, "age");
+        public Criteria andBirthdayBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birthday between", value1, value2, "birthday");
             return (Criteria) this;
         }
 
-        public Criteria andAgeNotBetween(Integer value1, Integer value2) {
-            addCriterion("age not between", value1, value2, "age");
+        public Criteria andBirthdayNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("birthday not between", value1, value2, "birthday");
             return (Criteria) this;
         }
 
@@ -931,6 +959,76 @@ public class UserExample {
 
         public Criteria andScoreNotBetween(Integer value1, Integer value2) {
             addCriterion("score not between", value1, value2, "score");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicIsNull() {
+            addCriterion("headpic is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicIsNotNull() {
+            addCriterion("headpic is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicEqualTo(String value) {
+            addCriterion("headpic =", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicNotEqualTo(String value) {
+            addCriterion("headpic <>", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicGreaterThan(String value) {
+            addCriterion("headpic >", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicGreaterThanOrEqualTo(String value) {
+            addCriterion("headpic >=", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicLessThan(String value) {
+            addCriterion("headpic <", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicLessThanOrEqualTo(String value) {
+            addCriterion("headpic <=", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicLike(String value) {
+            addCriterion("headpic like", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicNotLike(String value) {
+            addCriterion("headpic not like", value, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicIn(List<String> values) {
+            addCriterion("headpic in", values, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicNotIn(List<String> values) {
+            addCriterion("headpic not in", values, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicBetween(String value1, String value2) {
+            addCriterion("headpic between", value1, value2, "headpic");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadpicNotBetween(String value1, String value2) {
+            addCriterion("headpic not between", value1, value2, "headpic");
             return (Criteria) this;
         }
     }
