@@ -4,6 +4,7 @@ import cn.rsna.dao.UserMapper;
 import cn.rsna.entity.User;
 import cn.rsna.entity.UserExample;
 import cn.rsna.service.IUserService;
+import cn.rsna.utils.UserMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,4 +57,13 @@ public class UserServiceImpl implements IUserService {
         else return username;
     }
 
+    @Override
+    public boolean update(UserMessage userMessage,String username) {
+        User user = selectUserByName(username);
+        user = userMessage.setMeassge(user);
+        int f = userMapper.updateByPrimaryKey(user);
+        if (f<=0)
+        return false;
+        else return true;
+    }
 }
