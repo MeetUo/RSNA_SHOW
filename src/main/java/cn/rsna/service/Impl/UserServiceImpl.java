@@ -4,6 +4,7 @@ import cn.rsna.dao.UserMapper;
 import cn.rsna.entity.User;
 import cn.rsna.entity.UserExample;
 import cn.rsna.service.IUserService;
+import cn.rsna.utils.MD5;
 import cn.rsna.utils.UserMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,20 @@ import java.util.List;
 public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
-    @Override
-    public boolean isLogin(String username,String password){
+
+    public User selectUserByName(String username){
         UserExample example = new UserExample();
         example.createCriteria().andUsernameEqualTo(username);
         List<User> UserList = userMapper.selectByExample(example);
-        if (UserList.isEmpty()) return false;
-        if (UserList.get(0).getPassword().equals(password)) return true;
+        if (UserList==null || UserList.isEmpty()) return null;
+        else return UserList.get(0);
+    }
+
+    @Override
+    public boolean isLogin(String username,String password){
+        User user = selectUserByName(username);
+        if (user == null) return false;
+        if (user.getPassword().equals(password)) return true;
         else return false;
     }
     @Override
@@ -34,13 +42,6 @@ public class UserServiceImpl implements IUserService {
         else return  false;
     }
     @Override
-    public User selectUserByName(String username){
-        UserExample example = new UserExample();
-        example.createCriteria().andUsernameEqualTo(username);
-        List<User> UserList = userMapper.selectByExample(example);
-        if (UserList==null) return null;
-        else return UserList.get(0);
-    }
     public String isLogined(Cookie [] cookies)  throws Exception{
         String username = "";
         boolean flag = false;
@@ -63,7 +64,28 @@ public class UserServiceImpl implements IUserService {
         user = userMessage.setMeassge(user);
         int f = userMapper.updateByPrimaryKey(user);
         if (f<=0)
-        return false;
+            return false;
         else return true;
+    }
+
+    @Override
+    public boolean updateHead(String username, String url) {
+        User user = selectUserByName(username);
+        user.setHeadpic(url);
+        int f = userMapper.updateByPrimaryKey(user);
+        if (f<=0)
+            return false;
+        else return true;
+    }
+
+    @Override
+    public boolean updatePassword(String username, String newPassword, String oldPassword) {
+        User user = selectUserByName(username);
+        if (user.getPassword().equals(MD5.string2MD5(oldPassword))) {
+            user.setPassword(MD5.string2MD5(newPassword));
+            userMapper.updateByPrimaryKey(user);
+            return true;
+        }
+        else return false;
     }
 }

@@ -2,6 +2,7 @@ package cn.rsna.service;
 
 
 import cn.rsna.entity.User;
+import cn.rsna.utils.SaveImage;
 import cn.rsna.utils.UserMessage;
 
 import javax.servlet.http.Cookie;
@@ -13,4 +14,6 @@ public interface IUserService {
     public User selectUserByName(String username);
     public String isLogined(Cookie [] cookies) throws Exception;
     public boolean update(UserMessage userMessage,String username);
+    public boolean updateHead(String username,String url);
+    public boolean updatePassword(String username,String newPassword,String oldPassword);
 }

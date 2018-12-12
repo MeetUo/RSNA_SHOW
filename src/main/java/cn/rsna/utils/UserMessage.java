@@ -18,8 +18,6 @@ public class UserMessage {
 
     private String hosptial;
 
-    private String headpic;
-
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
@@ -44,9 +42,6 @@ public class UserMessage {
         this.hosptial = hosptial;
     }
 
-    public void setHeadpic(String headpic) {
-        this.headpic = headpic;
-    }
 
     public User setMeassge(User user)
     {
@@ -56,7 +51,6 @@ public class UserMessage {
         user.setBirthday(birthday);
         user.setLocation(location);
         user.setHosptial(hosptial);
-        user.setHeadpic(headpic);
         return user;
     }
 
