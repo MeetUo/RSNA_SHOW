@@ -20,6 +20,9 @@ public class SaveImage {
              */
             //1，获取原始文件名
             String originalFilename = Imagefile.getOriginalFilename();
+            if (originalFilename.compareTo("blob")==0){
+                originalFilename= originalFilename+".jpg";
+            }
             //2,截取源文件的文件名前缀,不带后缀
             String fileNamePrefix = originalFilename.substring(0,originalFilename.lastIndexOf("."));
             //3,加工处理文件名，原文件加上时间戳

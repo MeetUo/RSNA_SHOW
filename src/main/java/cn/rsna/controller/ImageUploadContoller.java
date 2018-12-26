@@ -6,6 +6,7 @@ import cn.rsna.utils.LocaResult;
 import cn.rsna.utils.LocalRequest;
 import cn.rsna.utils.RSNAResult;
 import cn.rsna.utils.SaveImage;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,17 @@ import java.io.IOException;
 public class ImageUploadContoller {
     @Autowired
     IImageRegService imageRegService;
+
+    @RequestMapping(value = "/test.do", method = RequestMethod.POST)
+    @ResponseBody
+    public RSNAResult handleReques(@RequestParam(value = "myImage",required = false)MultipartFile file ,HttpServletRequest request) throws Exception {
+        System.out.println(file);
+        return RSNAResult.ok();
+    }
+
     @RequestMapping(value = "/imageUpload.do", method = RequestMethod.POST)
     @ResponseBody
-    public RSNAResult handleRequest(@RequestParam("myImage")MultipartFile Imagefile, HttpServletRequest request) throws Exception {
+    public RSNAResult handleRequest(@RequestParam(value = "myImage",required = false)MultipartFile Imagefile, HttpServletRequest request) throws Exception {
         String urlPrefix = "ImageData/";
         String upLoadPath = request.getServletContext().getRealPath("/") +urlPrefix;
         String username =(String) request.getAttribute("username");

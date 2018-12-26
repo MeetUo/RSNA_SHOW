@@ -1,5 +1,6 @@
 package cn.innterceptor;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,7 +14,12 @@ public class ProcessInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
 
         //处理因跨域请求问题导致的一些问题
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        String origin = httpServletRequest.getHeader("Origin");
+        if(StringUtils.isNotBlank(origin)) {
+            httpServletResponse.setHeader("Access-Control-Allow-Origin", origin);
+        }
+//        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 
         httpServletResponse.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods");
 
