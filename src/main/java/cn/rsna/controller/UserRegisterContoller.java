@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,7 +39,11 @@ public class UserRegisterContoller {
             user.setUsertype(UserType);
             user.setScore(0);
             int msg = userRegisterService.add(user);
-            return RSNAResult.build(200, String.valueOf(msg));
+            Cookie cookie = new Cookie("username",UserName );
+            cookie.setMaxAge(86400); // 设置24小时有效
+            cookie.setPath("/RSNA_SHOW");
+            response.addCookie(cookie); // 服务器返回给浏览器cookie以便下次判断
+            return RSNAResult.ok(userRegisterService.selectbyName(UserName));
         }
         else return RSNAResult.build(123, "user has exit");
     }

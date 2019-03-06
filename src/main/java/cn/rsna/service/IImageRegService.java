@@ -11,4 +11,5 @@ public interface IImageRegService {
     public LocaResult getRes();
     public RSNAResult getRes(File file, String username, String path);
     public boolean addNewRes(LocalRequest localRequest);
+    public List<String> getImageByUsername(String username);
 }

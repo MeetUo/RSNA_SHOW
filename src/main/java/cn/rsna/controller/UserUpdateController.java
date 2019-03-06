@@ -26,7 +26,7 @@ public class UserUpdateController {
     public RSNAResult userUpdate(@RequestBody UserMessage userMessage, HttpServletRequest request) throws Exception {
        String username =(String)request.getAttribute("username");
        if (username == null) return RSNAResult.build(123,"please login first");
-       if (userService.update(userMessage,username)) return RSNAResult.ok();
+       if (userService.update(userMessage,username)) return RSNAResult.ok(userService.selectUserByName(username));
        else return RSNAResult.build(123,"user update fail");
     }
 
@@ -39,8 +39,8 @@ public class UserUpdateController {
         String urlPrefix = "HeadImage/";
         String upLoadPath = request.getServletContext().getRealPath("/") +urlPrefix;
         File file = SaveImage.getImageFile(Imagefile,upLoadPath);
-        if(file!=null && userService.updateHead(username,SaveImage.getUrl(file,urlPrefix)))
-            return RSNAResult.ok();
+        String headurl = SaveImage.getUrl(file,urlPrefix);
+        if (!headurl.isEmpty()) return RSNAResult.ok(headurl);
         else return RSNAResult.build(123,"image update fail");
     }
 

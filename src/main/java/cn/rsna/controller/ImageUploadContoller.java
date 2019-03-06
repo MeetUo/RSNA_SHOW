@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping(value="/image")
@@ -46,6 +47,16 @@ public class ImageUploadContoller {
     @ResponseBody
     public RSNAResult imageUpdate(@RequestBody LocalRequest localRequest) throws Exception {
         if (imageRegService.addNewRes(localRequest)) return RSNAResult.ok();
-        else return RSNAResult.build(123,"update fail");
+        else return RSNAResult.build(123,"update fail 请确认该张图片是否已经由系统检测过肺炎");
+    }
+
+    @RequestMapping(value = "/imageHistory.do",  method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public RSNAResult imageHistory(@RequestParam(value = "username")String username) throws Exception {
+        List<String> data = imageRegService.getImageByUsername(username);
+        if (data==null){
+            return RSNAResult.build(123,"该用户暂无图片上传");
+        }
+        else return RSNAResult.ok(data);
     }
 }

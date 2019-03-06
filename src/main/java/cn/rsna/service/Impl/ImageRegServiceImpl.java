@@ -1,6 +1,7 @@
 package cn.rsna.service.Impl;
 
 import cn.rsna.dao.UserPicMapper;
+import cn.rsna.entity.UserPicExample;
 import cn.rsna.utils.*;
 import cn.rsna.entity.UserPic;
 import cn.rsna.service.IImageRegService;
@@ -111,5 +112,19 @@ public class ImageRegServiceImpl implements IImageRegService {
         locaResult.setRight_x(100.0);
         locaResult.setRight_y(100.0);
         return locaResult;
+    }
+
+    public List<String> getImageByUsername(String username){
+        UserPicExample example = new UserPicExample();
+        example.createCriteria().andUsernameEqualTo(username);
+        List<UserPic> UserList = userPicMapper.selectByExample(example);
+        if (UserList==null || UserList.isEmpty()) return null;
+        else {
+            List<String> res = new ArrayList<>();
+            for (UserPic itme:UserList) {
+                res.add(itme.getPath());
+            }
+            return res;
+        }
     }
 }

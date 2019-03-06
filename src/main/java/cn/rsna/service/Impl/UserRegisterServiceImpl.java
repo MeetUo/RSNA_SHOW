@@ -24,4 +24,13 @@ public class UserRegisterServiceImpl implements IUserRegisterService {
         if (UserList.isEmpty()) return false;
         return true;
     }
+
+    @Override
+    public User selectbyName(String username) {
+        UserExample example = new UserExample();
+        example.createCriteria().andUsernameEqualTo(username);
+        List<User> UserList = userMapper.selectByExample(example);
+        if (UserList==null || UserList.isEmpty()) return null;
+        else return UserList.get(0);
+    }
 }

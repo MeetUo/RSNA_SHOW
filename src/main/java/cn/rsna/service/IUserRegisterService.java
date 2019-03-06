@@ -6,4 +6,5 @@ import cn.rsna.entity.UserKey;
 public interface IUserRegisterService {
     public int add(User user);
     public boolean select(String username);
+    public User selectbyName(String username);
 }
